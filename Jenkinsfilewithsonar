@@ -30,7 +30,7 @@ pipeline{
             steps{
                 unstash name: 'spc-build-jar'
                 echo "clone the latest playbook"
-                sh 'git --version --version'
+                sh 'git --version'
             }
         }
     }
