@@ -15,7 +15,7 @@ pipeline{
         stage('Build the Jar and sonarqube-analysis'){
             steps{
                 withSonarQubeEnv('SONAR'){
-                    sh script : 'mvn clean package'
+                    sh script : 'mvn package'
                 }
                 stash name: 'spc-build-jar', includes: 'target/*.jar'
             }      
