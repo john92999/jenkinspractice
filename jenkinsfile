@@ -13,10 +13,14 @@ pipeline{
             }
         }
         stage('Build the Jar'){
-            sh script : 'mvn clean package'
+            steps{
+                sh script : 'mvn clean package'
+            }      
         }
         stage('Archive the artifacts'){
-            junit testResults: 'target/surefire-reports/*.xml'
+            steps{
+                junit testResults: 'target/surefire-reports/*.xml'
+            }
         }
     }
     post{
