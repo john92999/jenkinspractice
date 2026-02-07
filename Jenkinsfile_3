@@ -1,0 +1,46 @@
+pipeline{
+    agent {label 'ubuntu1'}
+    options {timeout(time: 1, unit: 'HOURS')
+    retry(2)
+    }
+    triggers{
+        pollSCM('* * * * *')
+    }
+    parameters{
+        choice(name: 'GOAL', choice: ['compile', 'package', 'clean package'])
+    }
+    stages{
+        stage('Clone the Pipeline'){
+            steps{
+                git url: 'https://github.com/john92999/jenkinspractice.git', branch: 'main'
+            }
+        }
+        stage('Build the Jar'){
+            steps{
+                sh script : 'mvn ${params.GOAL}'
+                stash name: 'spc-build-jar', includes: 'target/*.jar'
+            }      
+        }
+        stage('Archive the artifacts'){
+            steps{
+                junit testResults: 'target/surefire-reports/*.xml'
+            }
+        }
+        stage('Deployment'){
+            agent{label 'ubuntu1'}
+            steps{
+                unstash name: 'spc-build-jar'
+                echo "clone the latest playbook"
+                sh 'git --version --version'
+            }
+        }
+    }
+    post{
+        success{
+            echo "success"
+        }
+        unsuccessful{
+            echo "failure"
+        }
+    }
+}
