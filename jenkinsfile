@@ -4,7 +4,7 @@ pipeline{
     retry(2)
     }
     triggers{
-        pollSCM('* * * *')
+        pollSCM('* * * * *')
     }
     stages{
         stage('Clone the Pipeline'){
