@@ -1,0 +1,25 @@
+pipeline{
+    agent{
+        label 'ubuntu1'
+    }
+    triggers{
+        pollSCM('* * * * *')
+    }
+    stages{
+        stage('source Code'){
+            steps{
+                git url: "https://github.com/john92999/jenkinspractice.git", branch: "main"
+            }
+        }
+        stage('build'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('archive'){
+            steps{
+                junit '**/surefire-reports/*.xml'
+            }
+        }
+    }
+}
