@@ -4,7 +4,7 @@ pipeline{
         label 'ubuntu2'
     }
     parameters{
-        choice (name: 'BUILD', build: ['clean', 'clean package', 'clean test package'])
+        choice(name: 'BUILD', choices: ['clean', 'clean package', 'clean test package'])
     }
     stages{
         stage('Git'){
