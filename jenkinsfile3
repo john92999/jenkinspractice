@@ -19,7 +19,7 @@ pipeline{
         }
         stage('Reporting'){
             steps{
-                test()
+                testResults()
             }
         }
     }
